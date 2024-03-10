@@ -1,58 +1,47 @@
-import { useState, useEffect } from "react";
 import "./App.css";
-import { Description } from "./Description/Description";
-import { Feedback } from "./Feedback/Feedback";
-import { Notification } from "./Notification/Notification";
-import { Options } from "./Options/Options";
+import { ContactForm } from "./ContactForm/ContactForm";
+import { ContactList } from "./ContactList/ContactList";
+import { SearchBox } from "./SearchBox/SearchBox";
+import { useState, useEffect } from "react";
 
-export const initialState = { good: 0, neutral: 0, bad: 0 };
-const stateFields = Object.keys(initialState);
+const initialContacts = [
+  { id: "id-1", name: "Rosie Simpson", number: "459-12-56" },
+  { id: "id-2", name: "Hermione Kline", number: "443-89-12" },
+  { id: "id-3", name: "Eden Clements", number: "645-17-79" },
+  { id: "id-4", name: "Annie Copeland", number: "227-91-26" },
+];
+
 export default function App() {
-  const [state, setState] = useState(() => {
-    const savedState = localStorage.getItem("feedbackState");
-    return savedState ? JSON.parse(savedState) : initialState;
-  });
+  const [contacts, setContacts] = useState(initialContacts);
+  const [searchItem, setSearchItem] = useState("");
 
-  useEffect(() => {
-    localStorage.setItem("feedbackState", JSON.stringify(state));
-  }, [state]);
-
-  const updateFeedback = (feedbackType) => {
-    if (stateFields.includes(feedbackType)) {
-      setState((prevState) => ({
-        ...prevState,
-        [feedbackType]: prevState[feedbackType] + 1,
-      }));
-    }
+  const addContact = (name, number) => {
+    const newContact = {
+      id: Math.random().toString(),
+      name: name,
+      number: number,
+    };
+    setContacts((prevContacts) => [...prevContacts, newContact]);
   };
 
-  const resetFeedback = () => setState(initialState);
+  const handleSearchChange = (event) => {
+    setSearchItem(event.target.value);
+  };
 
-  const totalFeedback = state.good + state.neutral + state.bad;
-  const positivePercentage =
-    totalFeedback > 0
-      ? Math.round(((state.good + state.neutral) / totalFeedback) * 100)
-      : 0;
+  const filteredContacts = contacts.filter((contact) =>
+    contact.name.toLowerCase().includes(searchItem.toLowerCase())
+  );
+
+  useEffect(() => {
+    localStorage.setItem("contacts", JSON.stringify(contacts));
+  }, [contacts]);
 
   return (
-    <div>
-      <Description />
-      <Options
-        updateFeedback={updateFeedback}
-        totalFeedback={totalFeedback}
-        resetFeedback={resetFeedback}
-      />
-      {totalFeedback > 0 ? (
-        <Feedback
-          good={state.good}
-          neutral={state.neutral}
-          bad={state.bad}
-          totalFeedback={totalFeedback}
-          positivePercentage={positivePercentage}
-        />
-      ) : (
-        <Notification />
-      )}
+    <div className="generalContainer">
+      <h1>Phonebook</h1>
+      <ContactForm addContact={addContact} />
+      <SearchBox handleSearchChange={handleSearchChange} />
+      <ContactList contacts={filteredContacts} setContacts={setContacts} />
     </div>
   );
 }
