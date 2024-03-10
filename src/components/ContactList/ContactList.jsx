@@ -5,7 +5,7 @@ export const ContactList = ({ setContacts, contacts }) => {
     setContacts(contacts.filter((contact) => contact.id !== id));
   };
   return (
-    <>
+    <ul>
       {contacts.map((contact) => (
         <Contact
           key={contact.id}
@@ -14,6 +14,6 @@ export const ContactList = ({ setContacts, contacts }) => {
           number={contact.number}
         />
       ))}
-    </>
+    </ul>
   );
 };

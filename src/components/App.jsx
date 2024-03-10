@@ -3,6 +3,7 @@ import { ContactForm } from "./ContactForm/ContactForm";
 import { ContactList } from "./ContactList/ContactList";
 import { SearchBox } from "./SearchBox/SearchBox";
 import { useState, useEffect } from "react";
+import { nanoid } from "nanoid";
 
 const initialContacts = [
   { id: "id-1", name: "Rosie Simpson", number: "459-12-56" },
@@ -17,7 +18,7 @@ export default function App() {
 
   const addContact = (name, number) => {
     const newContact = {
-      id: Math.random().toString(),
+      id: nanoid(),
       name: name,
       number: number,
     };
