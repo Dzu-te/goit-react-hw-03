@@ -1,9 +1,6 @@
 import { Contact } from "../Contact/Contact";
 
-export const ContactList = ({ setContacts, contacts }) => {
-  const handleContactDelete = (id) => {
-    setContacts(contacts.filter((contact) => contact.id !== id));
-  };
+export const ContactList = ({ contacts, handleContactDelete }) => {
   return (
     <ul>
       {contacts.map((contact) => (

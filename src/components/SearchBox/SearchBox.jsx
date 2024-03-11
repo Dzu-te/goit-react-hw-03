@@ -1,4 +1,4 @@
-export const SearchBox = ({ handleSearchChange }) => {
+export const SearchBox = ({ handleSearchChange, searchItem }) => {
   return (
     <>
       <h4></h4>
@@ -6,6 +6,7 @@ export const SearchBox = ({ handleSearchChange }) => {
       <input
         type="text"
         placeholder="Enter name"
+        value={searchItem}
         onChange={handleSearchChange}
       />
     </>

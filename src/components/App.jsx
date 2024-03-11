@@ -29,6 +29,10 @@ export default function App() {
     setSearchItem(event.target.value);
   };
 
+  const handleContactDelete = (id) => {
+    setContacts(contacts.filter((contact) => contact.id !== id));
+  };
+
   const filteredContacts = contacts.filter((contact) =>
     contact.name.toLowerCase().includes(searchItem.toLowerCase())
   );
@@ -41,8 +45,15 @@ export default function App() {
     <div className="generalContainer">
       <h1>Phonebook</h1>
       <ContactForm addContact={addContact} />
-      <SearchBox handleSearchChange={handleSearchChange} />
-      <ContactList contacts={filteredContacts} setContacts={setContacts} />
+      <SearchBox
+        handleSearchChange={handleSearchChange}
+        searchItem={searchItem}
+      />
+      <ContactList
+        contacts={filteredContacts}
+        setContacts={setContacts}
+        handleContactDelete={handleContactDelete}
+      />
     </div>
   );
 }
