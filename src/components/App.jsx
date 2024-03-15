@@ -12,8 +12,13 @@ const initialContacts = [
   { id: "id-4", name: "Annie Copeland", number: "227-91-26" },
 ];
 
+const getInitialContacts = () => {
+  const item = localStorage.getItem("contacts");
+  return item ? JSON.parse(item) : initialContacts;
+};
+
 export default function App() {
-  const [contacts, setContacts] = useState(initialContacts);
+  const [contacts, setContacts] = useState(getInitialContacts);
   const [searchItem, setSearchItem] = useState("");
 
   const addContact = (name, number) => {
@@ -51,7 +56,6 @@ export default function App() {
       />
       <ContactList
         contacts={filteredContacts}
-        setContacts={setContacts}
         handleContactDelete={handleContactDelete}
       />
     </div>
